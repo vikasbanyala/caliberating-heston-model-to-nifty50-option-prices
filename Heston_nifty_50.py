@@ -37,11 +37,15 @@ def heston_charfunc(phi, S0, v0, kappa, theta, sigma, rho, lambd, tau, r):
     exp2 = np.exp(a*tau*(b-rspi+d)/sigma**2 + v0*(b-rspi+d)*( (1-np.exp(d*tau))/(1-g*np.exp(d*tau)) )/sigma**2)
 
     return exp1*term2*exp2
+    
+    
 def integrand(phi, S0, v0, kappa, theta, sigma, rho, lambd, tau, r):
     args = (S0, v0, kappa, theta, sigma, rho, lambd, tau, r)
     numerator = np.exp(r*tau)*heston_charfunc(phi-1j,*args) - K*heston_charfunc(phi,*args)
     denominator = 1j*phi*K**(1j*phi)
     return numerator/denominator
+
+
 def heston_price_rec(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r):
     args = (S0, v0, kappa, theta, sigma, rho, lambd, tau, r)
 
@@ -57,6 +61,8 @@ def heston_price_rec(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r):
         P += dphi * numerator/denominator
 
     return np.real((S0 - K*np.exp(-r*tau))/2 + P/np.pi)
+
+
 def heston_price(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r):
     args = (S0, v0, kappa, theta, sigma, rho, lambd, tau, r)
 
@@ -119,11 +125,8 @@ bnds = [param["lbub"] for key, param in params.items()]
 def SqErr(x):
     v0, kappa, theta, sigma, rho, lambd = [param for param in x]
 
-    # Attempted to use scipy integrate quad module as constrained to single floats not arrays
-    # err = np.sum([ (P_i-heston_price(S0, K_i, v0, kappa, theta, sigma, rho, lambd, tau_i, r_i))**2 /len(P) \
-    #               for P_i, K_i, tau_i, r_i in zip(marketPrices, K, tau, r)])
 
-    # Decided to use rectangular integration function in the end
+    # use rectangular integration function
     err = np.sum( (P-heston_price_rec(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r))**2 /len(P) )
 
     # Zero penalty term - no good guesses for parameters
