@@ -111,12 +111,12 @@ K = volSurfaceLong['strike'].to_numpy('float')
 tau = volSurfaceLong['maturity'].to_numpy('float')
 P = volSurfaceLong['price'].to_numpy('float')
 
-params = {"v0": {"x0": 0.1, "lbub": [1e-3,1]},
-          "kappa": {"x0": 3, "lbub": [1e-3,0.1]},
-          "theta": {"x0": 0.05, "lbub": [1e-3,1]},
-          "sigma": {"x0": 0.3, "lbub": [1e-2,0.2]},
-          "rho": {"x0": -0.8, "lbub": [-1,0]},
-          "lambd": {"x0": 0.03, "lbub": [-1,1]},
+params = {"v0": {"x0": 0.1, "lbub": []},
+          "kappa": {"x0": 3, "lbub": []},
+          "theta": {"x0": 0.05, "lbub": []},
+          "sigma": {"x0": 0.3, "lbub": []},
+          "rho": {"x0": -0.8, "lbub": []},
+          "lambd": {"x0": 0.03, "lbub": []},
           }
 
 x0 = [param["x0"] for key, param in params.items()]
