@@ -63,12 +63,6 @@ def heston_price_rec(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r):
     return np.real((S0 - K*np.exp(-r*tau))/2 + P/np.pi)
 
 
-def heston_price(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r):
-    args = (S0, v0, kappa, theta, sigma, rho, lambd, tau, r)
-
-    real_integral, err = np.real( quad(integrand, 0, 100, args=args) )
-
-    return (S0 - K*np.exp(-r*tau))/2 + real_integral/np.pi
 
 
 yield_maturities = np.array([1/12, 2/12, 3/12, 6/12, 1, 2, 3, 5, 7, 10, 20, 30])
