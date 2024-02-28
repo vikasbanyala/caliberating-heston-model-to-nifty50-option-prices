@@ -123,10 +123,8 @@ def SqErr(x):
     # use rectangular integration function
     err = np.sum( (P-heston_price_rec(S0, K, v0, kappa, theta, sigma, rho, lambd, tau, r))**2 /len(P) )
 
-    # Zero penalty term - no good guesses for parameters
-    pen = 0 #np.sum( [(x_i-x0_i)**2 for x_i, x0_i in zip(x, x0)] )
-
-    return err + pen
+ 
+    return err
 
 result = minimize(SqErr, x0, tol = 1e-3, method='SLSQP', options={'maxiter': 1e4 }, bounds=bnds)
 
